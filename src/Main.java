@@ -6,7 +6,7 @@ public class Main {
 		JFrame frame = new JFrame();
 		int squareSize = 800;
 		frame.setSize(squareSize, squareSize);
-		Langton antie = new Langton(100,100,squareSize);
+		Langton antie = new Langton(400,400,squareSize);
 		frame.add(antie);
 		
 		

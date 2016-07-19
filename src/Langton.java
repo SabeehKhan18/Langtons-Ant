@@ -9,14 +9,18 @@ public class Langton extends JComponent{
 	private int posX;
 	private int posY;
 	private int boardSize;
-	private final int squareSize = 4 	;
+	private final int squareSize = 4;
 	private final boolean[][] squareArray;
 	private Random r;
+	private int xChange;
+	private int yChange;
 	
 	public Langton(int startX, int startY, int boardWidth) {
 		this.r = new Random();
 		this.posX = startX;
 		this.posY = startY;
+		this.xChange = 0;
+		this.yChange = -this.squareSize;
 		int number = (boardWidth/squareSize);
 		this.boardSize = boardWidth;
 		this.squareArray = new boolean [number][number];
@@ -28,7 +32,7 @@ public class Langton extends JComponent{
 	}
 	
 	public void start() {
-		int fps = 60;
+		int fps = 120;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now;
@@ -76,7 +80,7 @@ public class Langton extends JComponent{
 	private void move() {
 		int xNum = this.posX / this.squareSize;
 		int yNum = this.posY / this.squareSize;
-		int xChange = 0, yChange = -this.squareSize;
+		
 		if (this.squareArray[yNum][xNum]) {
 			//turn left
 			if(xChange == 0){ //if moving up or down
