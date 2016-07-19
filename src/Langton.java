@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Random;
 
@@ -7,7 +8,8 @@ import javax.swing.JComponent;
 public class Langton extends JComponent{
 	private int posX;
 	private int posY;
-	private final int squareSize = 20;
+	private int boardSize;
+	private final int squareSize = 4 	;
 	private final boolean[][] squareArray;
 	private Random r;
 	
@@ -16,15 +18,11 @@ public class Langton extends JComponent{
 		this.posX = startX;
 		this.posY = startY;
 		int number = (boardWidth/squareSize);
+		this.boardSize = boardWidth;
 		this.squareArray = new boolean [number][number];
 		for (int k = 0; k < this.squareArray.length;k++) {
 			for (int i = 0; i < this.squareArray[0].length; i++) {
-				if (r.nextBoolean()) {
-					this.squareArray[k][i] = true;
-				}
-				else {
-					this.squareArray[k][i] = false;
-				}
+				this.squareArray[k][i] = false;
 			}
 		}
 	}
@@ -37,14 +35,14 @@ public class Langton extends JComponent{
 		long lastTime = System.nanoTime();
 		long timer = 0;
 		int ticks = 0;
-		while(true){
+		while(this.posX >= 0 && this.posX < this.boardSize && this.posY >= 0 & this.posY < this.boardSize){
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
 			timer += now - lastTime;
 			lastTime = now;
 			if(delta >= 1){
 				move();
-				render();
+				
 				ticks++;
 				delta--;
 			}
@@ -57,9 +55,10 @@ public class Langton extends JComponent{
 		}
 	}
 	
-
-	private void render() {
-		Graphics2D g2 = (Graphics2D) g;
+	@Override
+	protected void paintComponent(Graphics graphics) {
+		super.paintComponent(graphics);
+		Graphics2D g2 = (Graphics2D) graphics;
 		for (int k = 0; k < this.squareArray.length;k++) {
 			for (int i = 0; i < this.squareArray[0].length; i++) {
 				if (this.squareArray[k][i]) {
@@ -75,9 +74,9 @@ public class Langton extends JComponent{
 	}
 
 	private void move() {
-		int xNum = this.posX / 10;
-		int yNum = this.posY / 10;
-		int xChange = 0, yChange = -10;
+		int xNum = this.posX / this.squareSize;
+		int yNum = this.posY / this.squareSize;
+		int xChange = 0, yChange = -this.squareSize;
 		if (this.squareArray[yNum][xNum]) {
 			//turn left
 			if(xChange == 0){ //if moving up or down
@@ -101,7 +100,6 @@ public class Langton extends JComponent{
 		this.posX += xChange;
 		this.posY += yChange;
 		this.squareArray[yNum][xNum] = !this.squareArray[yNum][xNum];
-		super.repaint();
 		System.out.println(this.posX + " " + this.posY);
 	}
 

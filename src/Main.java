@@ -8,11 +8,13 @@ public class Main {
 		frame.setSize(squareSize, squareSize);
 		Langton antie = new Langton(100,100,squareSize);
 		frame.add(antie);
-		antie.start();
+		
+		
 		frame.setTitle("Langton's Ant Simulation");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		frame.setVisible(true);
+		antie.start();
 	}
 
 }
