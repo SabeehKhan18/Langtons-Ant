@@ -42,7 +42,7 @@ public class Langton extends JComponent{
 			lastTime = now;
 			if(delta >= 1){
 				move();
-				
+				this.repaint();
 				ticks++;
 				delta--;
 			}
